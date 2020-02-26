@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -17,7 +17,8 @@ namespace Lab7
         {
             П,
             С,
-            А
+            А,
+            None
         }
 
         struct Worker
@@ -69,9 +70,7 @@ namespace Lab7
                 {
                     string surname = readFile.ReadLine();
                     string pos = readFile.ReadLine();
-                    var position = Pos.А;
-                    //try
-                    //{
+                    var position = Pos.None;
                         if (pos == "П")
                         {
                             position = Pos.П;
@@ -84,8 +83,6 @@ namespace Lab7
                         {
                             position = Pos.А;
                         }
-                    //}
-                    //catch ()
                     int year = int.Parse(readFile.ReadLine());
                     decimal salary = decimal.Parse(readFile.ReadLine());
                     Worker newWorker;
