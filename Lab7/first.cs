@@ -404,32 +404,18 @@ namespace Lab7
                 }
                 if (selector == 7)
                 {
-                    int[] years = new int[table.Count];
-                    for (int i = 0; i < years.Length; i++)
-                        years[i] = table[i].year;
-                    for (int i = 0; i < years.Length; i++)
+                    for (int i = 0; i < table.Count; i++)
                     {
                         int j = i - 1;
-                        int temp = years[i];
-                        while (j >= 0 && temp < years[j])
+                        var temp = table[i];
+                        while (j >= 0 && temp.year < table[j].year)
                         {
-                            years[j + 1] = years[j];
+                            table[j + 1] = table[j];
                             j--;
                         }
-                        years[j + 1] = temp;
+                        table[j + 1] = temp;
                     }
-                    for (int i = 0; i < years.Length; i++)
-                    {
-                        for (int j = 0; j < table.Count; j++)
-                        {
-                            if (years[i] == table[j].year)
-                            {
-                                var tempWorker = table[i];
-                                table[i] = table[j];
-                                table[j] = tempWorker;
-                            }
-                        }
-                    }
+                    Console.WriteLine();
                     Console.WriteLine("The table is sorted");
                     Console.WriteLine();
                 }
