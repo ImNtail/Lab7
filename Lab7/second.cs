@@ -31,40 +31,46 @@ namespace Lab7
                 Console.WriteLine(array[i]);
             }
             Console.WriteLine("Array is created");
-            Console.WriteLine("Choose the sort method\n1 - selection sort\n2 - insertion sort\n3 - bubble sort\n4 - shaker sort\n5 - Shell sort");
             Console.WriteLine();
-            int select = int.Parse(Console.ReadLine());
-            switch (select)
+            int select;
+            do
             {
-                case 1:
-                    Console.WriteLine("Selection sort");
-                    selectionSort(array, length);
-                    break;
-                case 2:
-                    Console.WriteLine("Insertion sort");
-                    insertionSort(array, length);
-                    break;
-                case 3:
-                    Console.WriteLine("Bubble sort");
-                    bubbleSort(array, length);
-                    break;
-                case 4:
-                    Console.WriteLine("Shaker sort");
-                    shakerSort(array, length);
-                    break;
-                case 5:
-                    Console.WriteLine("Shell sort");
-                    shellSort(array, length);
-                    break;
-                default:
-                    break;
+                Console.WriteLine("Choose the sort method\n1 - selection sort\n2 - insertion sort\n3 - bubble sort\n4 - shaker sort\n5 - Shell sort\nWrite 6 if you want to quit");
+                Console.WriteLine();
+                select = int.Parse(Console.ReadLine());
+                switch (select)
+                {
+                    case 1:
+                        Console.WriteLine("Selection sort");
+                        selectionSort(array, length);
+                        break;
+                    case 2:
+                        Console.WriteLine("Insertion sort");
+                        insertionSort(array, length);
+                        break;
+                    case 3:
+                        Console.WriteLine("Bubble sort");
+                        bubbleSort(array, length);
+                        break;
+                    case 4:
+                        Console.WriteLine("Shaker sort");
+                        shakerSort(array, length);
+                        break;
+                    case 5:
+                        Console.WriteLine("Shell sort");
+                        shellSort(array, length);
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine("Sorted array:");
+                for (int i = 0; i < length; i++)
+                {
+                    Console.WriteLine(array[i]);
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine("Array is sorted");
-            for (int i = 0; i < length; i++)
-            {
-                Console.WriteLine(array[i]);
-            }
-            Console.ReadKey();
+            while (select != 6);
         }
         static void Swap(ref int a, ref int b)
         {
@@ -117,6 +123,7 @@ namespace Lab7
                     }
                 }
                 length--;
+
                 for (int i = length - 1; i > startIndex; i--)
                 {
                     if (array[i] > array[i - 1])
