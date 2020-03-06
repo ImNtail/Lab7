@@ -23,7 +23,12 @@ namespace Lab7
         public static void Execute()
         {
             Random rand = new Random();
-            const int length = 10;
+            TimeSpan selectionWorkTime;
+            TimeSpan insertionWorkTime;
+            TimeSpan bubbleWorkTime;
+            TimeSpan shakerWorkTime;
+            TimeSpan shellWorkTime;
+            const int length = 100000;
             int[] array = new int[length];
             int[] sortedArray = new int[length];
             int[] reverseSortedArray = new int[length];
@@ -36,11 +41,11 @@ namespace Lab7
             }
             Console.WriteLine("First array is created");
             Console.WriteLine();
-            shellSort(sortedArray, length);
+            shellSort(sortedArray, length, out shellWorkTime);
             Array.Reverse(sortedArray);
             Console.WriteLine("Sorted array is created");
             Console.WriteLine();
-            shellSort(reverseSortedArray, length);
+            shellSort(reverseSortedArray, length, out shellWorkTime);
             Console.WriteLine("Reverse array is created");
             Console.WriteLine();
             int select = 0;
@@ -53,23 +58,33 @@ namespace Lab7
                 {
                     case 1:
                         Console.WriteLine("Selection sort");
-                        selectionSort(array, length);
+                        selectionSort(array, length, out selectionWorkTime);
+                        Console.WriteLine(selectionWorkTime);
+                        Console.WriteLine();
                         break;
                     case 2:
                         Console.WriteLine("Insertion sort");
-                        insertionSort(array, length);
+                        insertionSort(array, length, out insertionWorkTime);
+                        Console.WriteLine(insertionWorkTime);
+                        Console.WriteLine();
                         break;
                     case 3:
                         Console.WriteLine("Bubble sort");
-                        bubbleSort(array, length);
+                        bubbleSort(array, length, out bubbleWorkTime);
+                        Console.WriteLine(bubbleWorkTime);
+                        Console.WriteLine();
                         break;
                     case 4:
                         Console.WriteLine("Shaker sort");
-                        shakerSort(array, length);
+                        shakerSort(array, length, out shakerWorkTime);
+                        Console.WriteLine(shakerWorkTime);
+                        Console.WriteLine();
                         break;
                     case 5:
                         Console.WriteLine("Shell sort");
-                        shellSort(array, length);
+                        shellSort(array, length, out shellWorkTime);
+                        Console.WriteLine(shellWorkTime);
+                        Console.WriteLine();
                         break;
                     default:
                         break;
@@ -88,8 +103,9 @@ namespace Lab7
             a = b;
             b = tmp;
         }
-        static void selectionSort(int[] array, int length)
+        static void selectionSort(int[] array, int length, out TimeSpan selectionWorkTime)
         {
+            DateTime startTime = DateTime.Now;
             for (int i = length - 1; i >= 0; i--)
             {
                 int min = i;
@@ -98,9 +114,12 @@ namespace Lab7
                         min = j;
                 Swap(ref array[i], ref array[min]);
             }
+            DateTime endTime = DateTime.Now;
+            selectionWorkTime = endTime - startTime;
         }
-        static void insertionSort(int[] array, int length)
+        static void insertionSort(int[] array, int length, out TimeSpan insertionWorkTime)
         {
+            DateTime startTime = DateTime.Now;
             for (int i = 1; i < length; i++)
             {
                 int j = i;
@@ -112,17 +131,23 @@ namespace Lab7
                 }
                 array[j] = temp;
             }
+            DateTime endTime = DateTime.Now;
+            insertionWorkTime = endTime - startTime;
         }
-        static void bubbleSort(int[] array, int length)
+        static void bubbleSort(int[] array, int length, out TimeSpan bubbleWorkTime)
         {
+            DateTime startTime = DateTime.Now;
             for (int i = 0; i < length; i++)
                 for (int j = length-1; j > i; j--)
                     if (array[j - 1] < array[j])
                         Swap(ref array[j - 1], ref array[j]);
+            DateTime endTime = DateTime.Now;
+            bubbleWorkTime = endTime - startTime;
         }
-        static void shakerSort(int[] array, int length)
+        static void shakerSort(int[] array, int length, out TimeSpan shakerWorkTime)
         {
             int startIndex = 0;
+            DateTime startTime = DateTime.Now;
             do
             {
                 for (int i = startIndex; i < length - 1; i++)
@@ -144,9 +169,12 @@ namespace Lab7
                 startIndex++;
             }
             while (startIndex <= length - 1);
+            DateTime endTime = DateTime.Now;
+            shakerWorkTime = endTime - startTime;
         }
-        static void shellSort(int[] array, int length)
+        static void shellSort(int[] array, int length, out TimeSpan shellWorkTime)
         {
+            DateTime startTime = DateTime.Now;
             int[] steps = {57, 23, 10, 4, 1};
             int choosenStep = steps.Length;
             foreach (int step in steps)
@@ -163,6 +191,8 @@ namespace Lab7
                     array[j] = temp;
                 }
             }
+            DateTime endTime = DateTime.Now;
+            shellWorkTime = endTime - startTime;
         }
     }
 }
