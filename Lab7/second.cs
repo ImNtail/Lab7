@@ -25,15 +25,26 @@ namespace Lab7
             Random rand = new Random();
             const int length = 10;
             int[] array = new int[length];
+            int[] sortedArray = new int[length];
+            int[] reverseSortedArray = new int[length];
             for (int i = 0; i < length; i++)
             {
                 array[i] = rand.Next(-999, 999);
-                Console.WriteLine(array[i]);
+                sortedArray[i] = array[i];
+                reverseSortedArray[i] = array[i];
+                //Console.WriteLine(array[i]);
             }
-            Console.WriteLine("Array is created");
+            Console.WriteLine("First array is created");
             Console.WriteLine();
-            int select;
-            do
+            shellSort(sortedArray, length);
+            Array.Reverse(sortedArray);
+            Console.WriteLine("Sorted array is created");
+            Console.WriteLine();
+            shellSort(reverseSortedArray, length);
+            Console.WriteLine("Reverse array is created");
+            Console.WriteLine();
+            int select = 0;
+            while (select != 6)
             {
                 Console.WriteLine("Choose the sort method\n1 - selection sort\n2 - insertion sort\n3 - bubble sort\n4 - shaker sort\n5 - Shell sort\nWrite 6 if you want to quit");
                 Console.WriteLine();
@@ -63,14 +74,13 @@ namespace Lab7
                     default:
                         break;
                 }
-                Console.WriteLine("Sorted array:");
-                for (int i = 0; i < length; i++)
-                {
-                    Console.WriteLine(array[i]);
-                }
-                Console.WriteLine();
+                //Console.WriteLine("Sorted array:");
+                //for (int i = 0; i < length; i++)
+                //{
+                //    Console.WriteLine(array[i]);
+                //}
+                //Console.WriteLine();
             }
-            while (select != 6);
         }
         static void Swap(ref int a, ref int b)
         {
