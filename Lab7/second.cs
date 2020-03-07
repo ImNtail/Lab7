@@ -29,64 +29,125 @@ namespace Lab7
             TimeSpan shakerWorkTime;
             TimeSpan shellWorkTime;
             const int length = 100000;
+            int[] originalArray = new int[length];
+            int[] originalSortedArray = new int[length];
+            int[] originalReversSortedArray = new int[length];
             int[] array = new int[length];
             int[] sortedArray = new int[length];
             int[] reverseSortedArray = new int[length];
             for (int i = 0; i < length; i++)
             {
-                array[i] = rand.Next(-999, 999);
-                sortedArray[i] = array[i];
-                reverseSortedArray[i] = array[i];
-                //Console.WriteLine(array[i]);
+                originalArray[i] = rand.Next(-999, 999);
+                array[i] = originalArray[i];
+                originalSortedArray[i] = array[i];
+                originalReversSortedArray[i] = array[i];
+                //Console.WriteLine(originalArray[i]);
             }
             Console.WriteLine("First array is created");
             Console.WriteLine();
-            shellSort(sortedArray, length, out shellWorkTime);
-            Array.Reverse(sortedArray);
+            shellSort(originalSortedArray, length, out shellWorkTime);
+            Array.Reverse(originalSortedArray);
             Console.WriteLine("Sorted array is created");
             Console.WriteLine();
-            shellSort(reverseSortedArray, length, out shellWorkTime);
+            shellSort(originalReversSortedArray, length, out shellWorkTime);
             Console.WriteLine("Reverse array is created");
             Console.WriteLine();
             int select = 0;
-            while (select != 6)
+            while (select != 4)
             {
-                Console.WriteLine("Choose the sort method\n1 - selection sort\n2 - insertion sort\n3 - bubble sort\n4 - shaker sort\n5 - Shell sort\nWrite 6 if you want to quit");
+                Console.WriteLine("Choose array:\n1 - random array\n2 - ascending sorted array\n3 - descending sorted array\nWrite 4 if you want to quit");
                 Console.WriteLine();
                 select = int.Parse(Console.ReadLine());
                 switch (select)
                 {
                     case 1:
-                        Console.WriteLine("Selection sort");
+                        Console.WriteLine("Random array is chosen");
+                        Console.WriteLine();
+
                         selectionSort(array, length, out selectionWorkTime);
-                        Console.WriteLine(selectionWorkTime);
+                        Console.WriteLine("Selection sort is done at {0}", selectionWorkTime);
+                        array = originalArray;
+                        Console.WriteLine();
+
+                        insertionSort(array, length, out insertionWorkTime);
+                        Console.WriteLine("Insertion sort is done at {0}", insertionWorkTime);
+                        array = originalArray;
+                        Console.WriteLine();
+
+                        bubbleSort(array, length, out bubbleWorkTime);
+                        Console.WriteLine("Bubble sort is done at {0}", bubbleWorkTime);
+                        array = originalArray;
+                        Console.WriteLine();
+
+                        shakerSort(array, length, out shakerWorkTime);
+                        Console.WriteLine("Shaker sort is done at {0}", shakerWorkTime);
+                        array = originalArray;
+                        Console.WriteLine();
+
+                        shellSort(array, length, out shellWorkTime);
+                        Console.WriteLine("Shell sort is done at {0}", shellWorkTime);
+                        array = originalArray;
                         Console.WriteLine();
                         break;
                     case 2:
-                        Console.WriteLine("Insertion sort");
-                        insertionSort(array, length, out insertionWorkTime);
-                        Console.WriteLine(insertionWorkTime);
+                        sortedArray = originalSortedArray;
+                        Console.WriteLine("Ascending sorted array is chosen");
+                        Console.WriteLine();
+
+                        selectionSort(sortedArray, length, out selectionWorkTime);
+                        Console.WriteLine("Selection sort is done at {0}", selectionWorkTime);
+                        sortedArray = originalSortedArray;
+                        Console.WriteLine();
+
+                        insertionSort(sortedArray, length, out insertionWorkTime);
+                        Console.WriteLine("Insertion sort is done at {0}", insertionWorkTime);
+                        sortedArray = originalSortedArray;
+                        Console.WriteLine();
+
+                        bubbleSort(sortedArray, length, out bubbleWorkTime);
+                        Console.WriteLine("Bubble sort is done at {0}", bubbleWorkTime);
+                        sortedArray = originalSortedArray;
+                        Console.WriteLine();
+
+                        shakerSort(sortedArray, length, out shakerWorkTime);
+                        Console.WriteLine("Shaker sort is done at {0}", shakerWorkTime);
+                        sortedArray = originalSortedArray;
+                        Console.WriteLine();
+
+                        shellSort(sortedArray, length, out shellWorkTime);
+                        Console.WriteLine("Shell sort is done at {0}", shellWorkTime);
+                        sortedArray = originalSortedArray;
                         Console.WriteLine();
                         break;
                     case 3:
-                        Console.WriteLine("Bubble sort");
-                        bubbleSort(array, length, out bubbleWorkTime);
-                        Console.WriteLine(bubbleWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
+                        Console.WriteLine("Descending sorted array is chosen");
                         Console.WriteLine();
-                        break;
-                    case 4:
-                        Console.WriteLine("Shaker sort");
-                        shakerSort(array, length, out shakerWorkTime);
-                        Console.WriteLine(shakerWorkTime);
+
+                        selectionSort(reverseSortedArray, length, out selectionWorkTime);
+                        Console.WriteLine("Selection sort is done at {0}", selectionWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
                         Console.WriteLine();
-                        break;
-                    case 5:
-                        Console.WriteLine("Shell sort");
-                        shellSort(array, length, out shellWorkTime);
-                        Console.WriteLine(shellWorkTime);
+
+                        insertionSort(reverseSortedArray, length, out insertionWorkTime);
+                        Console.WriteLine("Insertion sort is done at {0}", insertionWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
                         Console.WriteLine();
-                        break;
-                    default:
+
+                        bubbleSort(reverseSortedArray, length, out bubbleWorkTime);
+                        Console.WriteLine("Bubble sort is done at {0}", bubbleWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
+                        Console.WriteLine();
+
+                        shakerSort(reverseSortedArray, length, out shakerWorkTime);
+                        Console.WriteLine("Shaker sort is done at {0}", shakerWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
+                        Console.WriteLine();
+
+                        shellSort(reverseSortedArray, length, out shellWorkTime);
+                        Console.WriteLine("Shell sort is done at {0}", shellWorkTime);
+                        reverseSortedArray = originalReversSortedArray;
+                        Console.WriteLine();
                         break;
                 }
                 //Console.WriteLine("Sorted array:");
