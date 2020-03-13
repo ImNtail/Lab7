@@ -27,147 +27,158 @@ namespace Lab7
             TimeSpan bubbleWorkTime;
             TimeSpan shakerWorkTime;
             TimeSpan shellWorkTime;
-            int countOfTranspositions = 0, countOfComparisons = 0;
-            const int length = 3;
+            ulong countOfTranspositions = 0, countOfComparisons = 0;
+            const int length = 100;
             int[] originalArray = new int[length];
             int[] originalSortedArray = new int[length];
             int[] originalReversSortedArray = new int[length];
             int[] array = new int[length];
             int[] sortedArray = new int[length];
             int[] reverseSortedArray = new int[length];
+            int[] arrayForCheck = new int[length];
             for (int i = 0; i < length; i++)
             {
                 originalArray[i] = rand.Next(-999, 999);
                 array[i] = originalArray[i];
                 originalSortedArray[i] = array[i];
                 originalReversSortedArray[i] = array[i];
-                Console.WriteLine(originalArray[i]);
             }
-            Console.WriteLine("First array is created");
-            Console.WriteLine();
+            Console.WriteLine("First array is created\n");
             shellSort(originalSortedArray, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
             Array.Reverse(originalSortedArray);
-            Console.WriteLine("Sorted array is created");
-            Console.WriteLine();
+            Console.WriteLine("Sorted array is created\n");
             shellSort(originalReversSortedArray, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
-            Console.WriteLine("Reverse array is created");
-            Console.WriteLine();
+            string directory = @"C:\Lab7_2";
+            string path = directory + "\\sorted.dat";
+            var directoryInfo = new DirectoryInfo(directory);
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+            using (StreamReader readArray = new StreamReader(new FileStream(path, FileMode.OpenOrCreate)))
+            {
+                try
+                {
+                    try
+                    {
+                        Console.WriteLine("Reading array from file...");
+                        for (int i = 0; i < arrayForCheck.Length; i++)
+                        {
+                            arrayForCheck[i] = int.Parse(readArray.ReadLine());
+                        }
+                        Console.WriteLine("Checking array...");
+                        shellSort(arrayForCheck, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
+                        if (countOfTranspositions == 0)
+                            Console.WriteLine("Array is sorted\n");
+                        else
+                            Console.WriteLine("Array is not sorted\n");
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        bool isEmpty = true;
+                        foreach (int number in arrayForCheck)
+                        {
+                            if (number != 0)
+                                isEmpty = false;
+                        }
+                        if (isEmpty)
+                            Console.WriteLine("File is empty!\n");
+                        else
+                            Console.WriteLine("Array is not full\n");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Array is broken\n");
+                }
+            }
+            using (StreamWriter writeArray = new StreamWriter(new FileStream(path, FileMode.Create)))
+            {
+                Console.WriteLine("Writing array to file...");
+                foreach (int number in originalReversSortedArray)
+                {
+                    writeArray.Write(number + "\n");
+                }
+                Console.WriteLine("Array is written\n");
+            }
+            Console.WriteLine("Reverse array is created\n");
             int select = 0;
             while (select != 4)
             {
-                Console.WriteLine("Choose array:\n1 - random array\n2 - ascending sorted array\n3 - descending sorted array\nWrite 4 if you want to quit");
-                Console.WriteLine();
+                Console.WriteLine("Choose array:\n1 - random array\n2 - ascending sorted array\n3 - descending sorted array\nWrite 4 if you want to quit\n");
                 select = int.Parse(Console.ReadLine());
                 switch (select)
                 {
                     case 1:
-                        Console.WriteLine("Random array is chosen");
-                        Console.WriteLine();
+                        Console.WriteLine("Random array is chosen\n");
 
                         selectionSort(array, length, out selectionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", selectionWorkTime, countOfTranspositions, countOfComparisons);
-                        for (int i = 0; i < length; i++)
-                        {
-                            Console.WriteLine(array[i]);
-                        }
-                        array = originalArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", selectionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalArray, array, length);
 
                         insertionSort(array, length, out insertionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", insertionWorkTime, countOfTranspositions, countOfComparisons);
-                        for (int i = 0; i < length; i++)
-                        {
-                            Console.WriteLine(array[i]);
-                        }
-                        array = originalArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", insertionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalArray, array, length);
 
                         bubbleSort(array, length, out bubbleWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", bubbleWorkTime, countOfTranspositions, countOfComparisons);
-                        for (int i = 0; i < length; i++)
-                        {
-                            Console.WriteLine(array[i]);
-                        }
-                        array = originalArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", bubbleWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalArray, array, length);
 
                         shakerSort(array, length, out shakerWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shakerWorkTime, countOfTranspositions, countOfComparisons);
-                        for (int i = 0; i < length; i++)
-                        {
-                            Console.WriteLine(array[i]);
-                        }
-                        array = originalArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shakerWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalArray, array, length);
 
                         shellSort(array, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shellWorkTime, countOfTranspositions, countOfComparisons);
-                        for (int i = 0; i < length; i++)
-                        {
-                            Console.WriteLine(array[i]);
-                        }
-                        array = originalArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shellWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalArray, array, length);
                         break;
                     case 2:
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine("Ascending sorted array is chosen");
-                        Console.WriteLine();
+                        Array.Copy(originalSortedArray, sortedArray, length);
+                        Console.WriteLine("Ascending sorted array is chosen\n");
 
                         selectionSort(sortedArray, length, out selectionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", selectionWorkTime, countOfTranspositions, countOfComparisons);
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", selectionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalSortedArray, sortedArray, length);
 
                         insertionSort(sortedArray, length, out insertionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", insertionWorkTime, countOfTranspositions, countOfComparisons);
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", insertionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalSortedArray, sortedArray, length);
 
                         bubbleSort(sortedArray, length, out bubbleWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", bubbleWorkTime, countOfTranspositions, countOfComparisons);
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", bubbleWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalSortedArray, sortedArray, length);
 
                         shakerSort(sortedArray, length, out shakerWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shakerWorkTime, countOfTranspositions, countOfComparisons);
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shakerWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalSortedArray, sortedArray, length);
 
                         shellSort(sortedArray, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shellWorkTime, countOfTranspositions, countOfComparisons);
-                        sortedArray = originalSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shellWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalSortedArray, sortedArray, length);
                         break;
                     case 3:
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine("Descending sorted array is chosen");
-                        Console.WriteLine();
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
+                        Console.WriteLine("Descending sorted array is chosen\n");
 
                         selectionSort(reverseSortedArray, length, out selectionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", selectionWorkTime, countOfTranspositions, countOfComparisons);
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Selection sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", selectionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
 
                         insertionSort(reverseSortedArray, length, out insertionWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", insertionWorkTime, countOfTranspositions, countOfComparisons);
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Insertion sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", insertionWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
 
                         bubbleSort(reverseSortedArray, length, out bubbleWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", bubbleWorkTime, countOfTranspositions, countOfComparisons);
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Bubble sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", bubbleWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
 
                         shakerSort(reverseSortedArray, length, out shakerWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shakerWorkTime, countOfTranspositions, countOfComparisons);
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shaker sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shakerWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
 
                         shellSort(reverseSortedArray, length, out shellWorkTime, out countOfComparisons, out countOfTranspositions);
-                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}", shellWorkTime, countOfTranspositions, countOfComparisons);
-                        reverseSortedArray = originalReversSortedArray;
-                        Console.WriteLine();
+                        Console.WriteLine("Shell sort is done at {0}\nCount of transpositions: {1}\nCount of comparisons: {2}\n", shellWorkTime, countOfTranspositions, countOfComparisons);
+                        Array.Copy(originalReversSortedArray, reverseSortedArray, length);
                         break;
                 }
             }
@@ -178,7 +189,7 @@ namespace Lab7
             a = b;
             b = tmp;
         }
-        static void selectionSort(int[] array, int length, out TimeSpan selectionWorkTime, out int countOfComparisons, out int countOfTranspositions)
+        static void selectionSort(int[] array, int length, out TimeSpan selectionWorkTime, out ulong countOfComparisons, out ulong countOfTranspositions)
         {
             countOfComparisons = 0;
             countOfTranspositions = 0;
@@ -199,7 +210,7 @@ namespace Lab7
             DateTime endTime = DateTime.Now;
             selectionWorkTime = endTime - startTime;
         }
-        static void insertionSort(int[] array, int length, out TimeSpan insertionWorkTime, out int countOfComparisons, out int countOfTranspositions)
+        static void insertionSort(int[] array, int length, out TimeSpan insertionWorkTime, out ulong countOfComparisons, out ulong countOfTranspositions)
         {
             countOfComparisons = 0;
             countOfTranspositions = 0;
@@ -214,19 +225,23 @@ namespace Lab7
                     array[j] = array[j - 1];
                     j--;
                 }
-                array[j] = temp;
-                countOfTranspositions++;
                 countOfComparisons++;
+                array[j] = temp;
+                if (j != i)
+                    countOfTranspositions++;
             }
+            if (countOfTranspositions > 0)
+                countOfTranspositions--;
             DateTime endTime = DateTime.Now;
             insertionWorkTime = endTime - startTime;
         }
-        static void bubbleSort(int[] array, int length, out TimeSpan bubbleWorkTime, out int countOfComparisons, out int countOfTranspositions)
+        static void bubbleSort(int[] array, int length, out TimeSpan bubbleWorkTime, out ulong countOfComparisons, out ulong countOfTranspositions)
         {
             countOfComparisons = 0;
             countOfTranspositions = 0;
             DateTime startTime = DateTime.Now;
             for (int i = 0; i < length; i++)
+            {
                 for (int j = length - 1; j > i; j--)
                 {
                     if (array[j - 1] < array[j])
@@ -236,10 +251,11 @@ namespace Lab7
                     }
                     countOfComparisons++;
                 }
+            }
             DateTime endTime = DateTime.Now;
             bubbleWorkTime = endTime - startTime;
         }
-        static void shakerSort(int[] array, int length, out TimeSpan shakerWorkTime, out int countOfComparisons, out int countOfTranspositions)
+        static void shakerSort(int[] array, int length, out TimeSpan shakerWorkTime, out ulong countOfComparisons, out ulong countOfTranspositions)
         {
             countOfComparisons = 0;
             countOfTranspositions = 0;
@@ -273,13 +289,12 @@ namespace Lab7
             DateTime endTime = DateTime.Now;
             shakerWorkTime = endTime - startTime;
         }
-        static void shellSort(int[] array, int length, out TimeSpan shellWorkTime, out int countOfComparisons, out int countOfTranspositions)
+        static void shellSort(int[] array, int length, out TimeSpan shellWorkTime, out ulong countOfComparisons, out ulong countOfTranspositions)
         {
             countOfComparisons = 0;
             countOfTranspositions = 0;
             DateTime startTime = DateTime.Now;
             int[] steps = {57, 23, 10, 4, 1};
-            int choosenStep = steps.Length;
             foreach (int step in steps)
             {
                 for (int i = step; i < length; i++)
@@ -294,9 +309,12 @@ namespace Lab7
                     }
                     countOfComparisons++;
                     array[j] = temp;
-                    countOfTranspositions++;
+                    if (j != i)
+                        countOfTranspositions++;
                 }
             }
+            if(countOfTranspositions > 0)
+                countOfTranspositions--;
             DateTime endTime = DateTime.Now;
             shellWorkTime = endTime - startTime;
         }
